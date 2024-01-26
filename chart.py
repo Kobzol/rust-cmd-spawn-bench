@@ -14,7 +14,9 @@ def plot_spawn(data: pd.DataFrame):
     data = data[data["mode"] == "spawn"]
 
     def plot_fn(data, **kwargs):
-        sns.lineplot(data=data, x="process_count", y="duration", hue="name")
+        ax = sns.lineplot(data=data, x="process_count", y="duration", hue="name")
+        ax.set(xlabel="Process count", ylabel="Duration [s]")
+        ax.legend_.set_title(None)
 
     plot_fn(data)
 
