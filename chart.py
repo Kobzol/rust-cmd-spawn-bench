@@ -15,13 +15,31 @@ def plot_spawn(data: pd.DataFrame):
 
     def plot_fn(data, **kwargs):
         ax = sns.lineplot(data=data, x="process_count", y="duration", hue="name")
-        ax.set(xlabel="Process count", ylabel="Duration [s]")
+        ax.set(xlabel="Process count", ylabel="Duration [s]", ylim=(0, None))
         ax.legend_.set_title(None)
+        sns.move_legend(ax, "upper left")
 
     plot_fn(data)
+    plt.savefig("charts/spawn-count.png")
 
 
-plot_spawn(data)
+def plot_mem(data: pd.DataFrame):
+    data = data.copy()
+    data = data[data["mode"] == "spawn"]
+    data["allocated"] /= 1024 * 1024
+
+    def plot_fn(data, **kwargs):
+        ax = sns.lineplot(data=data, x="allocated", y="duration", hue="name")
+        ax.set(xlabel="RSS [MiB}", ylabel="Duration [s]", ylim=(0, None))
+        ax.legend_.set_title(None)
+        sns.move_legend(ax, "upper left")
+
+    plot_fn(data)
+    plt.savefig("charts/spawn-mem.png")
+
 
 os.makedirs("charts", exist_ok=True)
-plt.savefig("charts/spawn-count.png")
+
+with plt.xkcd():
+    plot_spawn(data)
+    # plot_mem(data)
