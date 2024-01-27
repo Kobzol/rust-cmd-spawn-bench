@@ -18,7 +18,7 @@
 int main(int argc, char** argv) {
     std::vector<uint8_t> allocated;
 
-    if (argc < 4) {
+    if (argc < 3) {
         return 1;
     }
 
