@@ -15,46 +15,78 @@
         }                                  \
     }
 
-int main() {
-    std::vector<int> vec;
-    for (int i = 0; i < 50 * 1024 * 1024; i++) {
-        vec.push_back(i * i + 1);
+int main(int argc, char** argv) {
+    std::vector<uint8_t> allocated;
+
+    if (argc < 3) {
+        return 1;
     }
+
+    const char* name = argv[1];
+    int alloc = std::stoi(argv[2]);
 
     auto start = std::chrono::system_clock::now();
 
-    for (int i = 0; i < 100; i++) {
-        char *envp[] = {NULL};
-        char *args[] = {
-                "/usr/bin/sleep",
-                "0",
-                NULL};
+    std::vector<int> counts = {1000, 5000, 10000, 25000};
+    int repeat_count = 3;
 
-        posix_spawnattr_t attr;
-        CHECK(posix_spawnattr_init(&attr));
-        CHECK(posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_SETSIGMASK | POSIX_SPAWN_USEVFORK));
+    std::cout << "name,process_count,env_count,mode,allocated,duration" << std::endl;
 
-        pid_t pid;
-        auto start_spawn = std::chrono::system_clock::now();
-        CHECK(posix_spawn(
-                &pid,
-                "/usr/bin/sleep",
-                NULL,
-                &attr,
-                &args[0],
-                &envp[0]));
-        waitpid(pid, NULL, 0);
-        auto end = std::chrono::system_clock::now();
-        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start_spawn).count();
-        std::cout << diff << " us" << std::endl;
-        CHECK(posix_spawnattr_destroy(&attr));
+    std::vector<int> alloc_increments;
+    if (alloc == 0) {
+        alloc_increments.push_back(0);
+    } else {
+        alloc_increments = {alloc, alloc, alloc, alloc, alloc};
+        counts = {10000};
     }
 
-    auto end = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << diff << " ms" << std::endl;
+    std::vector<pid_t> processes;
+    for (auto alloc_increment: alloc_increments) {
+        allocated.resize(allocated.size() + (alloc_increment * 1024 * 1024));
 
-    std::cout << vec[1000] + vec[10231] << std::endl;
+        for (const auto& process_count: counts) {
+            for (int i = 0; i < repeat_count; i++) {
+                processes.clear();
+
+                auto start = std::chrono::system_clock::now();
+                for (int p = 0; p < process_count; p++) {
+                    pid_t pid;
+
+                    char *envp[] = {NULL};
+                    char *args[] = {
+                        "/usr/bin/sleep",
+                        "0",
+                        NULL};
+
+                    posix_spawnattr_t attr;
+                    CHECK(posix_spawnattr_init(&attr));
+                    CHECK(posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_SETSIGMASK/* | POSIX_SPAWN_USEVFORK*/));
+
+                    CHECK(posix_spawn(
+                        &pid,
+                        "/usr/bin/sleep",
+                        NULL,
+                        &attr,
+                        &args[0],
+                        &envp[0]));
+                    processes.push_back(pid);
+                    CHECK(posix_spawnattr_destroy(&attr));
+                }
+                auto end = std::chrono::system_clock::now();
+                auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                double duration = static_cast<double>(duration_ms) / 1000.0;
+                std::cout << name << "-cpp," << process_count << ",1,spawn," << allocated.size() << "," << duration << std::endl;
+
+                for (auto pid: processes) {
+                    waitpid(pid, NULL, 0);
+                }
+            }
+        }
+    }
+
+    if (!allocated.empty()) {
+        std::cout << allocated[alloc - 1] << std::endl;
+    }
 
     return 0;
 }
