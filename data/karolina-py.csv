@@ -1,0 +1,13 @@
+name,process_count,env_count,mode,allocated,duration
+cluster-py,1000,1,spawn,0,0.8013322353363037
+cluster-py,1000,1,spawn,0,0.8324897289276123
+cluster-py,1000,1,spawn,0,0.8225188255310059
+cluster-py,5000,1,spawn,0,4.1051106452941895
+cluster-py,5000,1,spawn,0,4.180933475494385
+cluster-py,5000,1,spawn,0,3.998035430908203
+cluster-py,10000,1,spawn,0,8.226962327957153
+cluster-py,10000,1,spawn,0,8.377645015716553
+cluster-py,10000,1,spawn,0,8.351789474487305
+cluster-py,25000,1,spawn,0,22.866479635238647
+cluster-py,25000,1,spawn,0,23.08194088935852
+cluster-py,25000,1,spawn,0,23.73053240776062

@@ -1,0 +1,13 @@
+name,process_count,env_count,mode,vfork,allocated,duration
+cluster-fork-cpp,1000,1,spawn,1,0,0.14
+cluster-fork-cpp,1000,1,spawn,1,0,0.13
+cluster-fork-cpp,1000,1,spawn,1,0,0.13
+cluster-fork-cpp,5000,1,spawn,1,0,0.633
+cluster-fork-cpp,5000,1,spawn,1,0,0.66
+cluster-fork-cpp,5000,1,spawn,1,0,0.654
+cluster-fork-cpp,10000,1,spawn,1,0,1.29
+cluster-fork-cpp,10000,1,spawn,1,0,1.279
+cluster-fork-cpp,10000,1,spawn,1,0,1.291
+cluster-fork-cpp,25000,1,spawn,1,0,3.226
+cluster-fork-cpp,25000,1,spawn,1,0,3.188
+cluster-fork-cpp,25000,1,spawn,1,0,3.206

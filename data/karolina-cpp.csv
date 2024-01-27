@@ -1,0 +1,13 @@
+name,process_count,env_count,mode,allocated,duration
+cluster-cpp,1000,1,spawn,0,0.117
+cluster-cpp,1000,1,spawn,0,0.12
+cluster-cpp,1000,1,spawn,0,0.119
+cluster-cpp,5000,1,spawn,0,0.623
+cluster-cpp,5000,1,spawn,0,0.651
+cluster-cpp,5000,1,spawn,0,0.644
+cluster-cpp,10000,1,spawn,0,1.285
+cluster-cpp,10000,1,spawn,0,1.316
+cluster-cpp,10000,1,spawn,0,1.323
+cluster-cpp,25000,1,spawn,0,3.246
+cluster-cpp,25000,1,spawn,0,3.317
+cluster-cpp,25000,1,spawn,0,3.325

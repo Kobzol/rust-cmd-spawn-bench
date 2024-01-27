@@ -1,0 +1,13 @@
+name,process_count,env_count,mode,vfork,allocated,duration
+local-fork-cpp,1000,1,spawn,0,0,0.061
+local-fork-cpp,1000,1,spawn,0,0,0.086
+local-fork-cpp,1000,1,spawn,0,0,0.062
+local-fork-cpp,5000,1,spawn,0,0,0.315
+local-fork-cpp,5000,1,spawn,0,0,0.312
+local-fork-cpp,5000,1,spawn,0,0,0.312
+local-fork-cpp,10000,1,spawn,0,0,0.626
+local-fork-cpp,10000,1,spawn,0,0,0.631
+local-fork-cpp,10000,1,spawn,0,0,0.637
+local-fork-cpp,25000,1,spawn,0,0,1.62
+local-fork-cpp,25000,1,spawn,0,0,1.729
+local-fork-cpp,25000,1,spawn,0,0,1.658
