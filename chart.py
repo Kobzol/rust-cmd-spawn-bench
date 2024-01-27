@@ -1,16 +1,26 @@
 import os
-import sys
+from typing import List
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-files = sys.argv[1:]
-data = pd.concat(tuple(pd.read_csv(f) for f in files))
+
+def load_data(files: List[str]) -> pd.DataFrame:
+    data = pd.concat(tuple(pd.read_csv(f) for f in files))
+
+    def rename(name: str) -> str:
+        if "-" not in name:
+            return f"{name}-rust"
+        return name
+
+    data["name"] = data["name"].apply(rename)
+    return data
 
 
-def plot_spawn(data: pd.DataFrame):
-    data = data.copy()
+def plot_spawn_rust_local_cluster():
+    data = load_data(["karolina.csv", "local.csv"])
+
     data = data[data["mode"] == "spawn"]
 
     def plot_fn(data, **kwargs):
@@ -20,26 +30,25 @@ def plot_spawn(data: pd.DataFrame):
         sns.move_legend(ax, "upper left")
 
     plot_fn(data)
-    plt.savefig("charts/spawn-count.png")
+    plt.savefig("charts/spawn-rust-local-vs-cluster.png")
 
 
-def plot_mem(data: pd.DataFrame):
-    data = data.copy()
-    data = data[data["mode"] == "spawn"]
-    data["allocated"] /= 1024 * 1024
-
-    def plot_fn(data, **kwargs):
-        ax = sns.lineplot(data=data, x="allocated", y="duration", hue="name")
-        ax.set(xlabel="RSS [MiB}", ylabel="Duration [s]", ylim=(0, None))
-        ax.legend_.set_title(None)
-        sns.move_legend(ax, "upper left")
-
-    plot_fn(data)
-    plt.savefig("charts/spawn-mem.png")
+# def plot_mem():
+#     data = pd.concat(tuple(pd.read_csv(f) for f in files))
+#     data = data[data["mode"] == "spawn"]
+#     data["allocated"] /= 1024 * 1024
+#
+#     def plot_fn(data, **kwargs):
+#         ax = sns.lineplot(data=data, x="allocated", y="duration", hue="name")
+#         ax.set(xlabel="RSS [MiB}", ylabel="Duration [s]", ylim=(0, None))
+#         ax.legend_.set_title(None)
+#         sns.move_legend(ax, "upper left")
+#
+#     plot_fn(data)
+#     plt.savefig("charts/spawn-mem.png")
 
 
 os.makedirs("charts", exist_ok=True)
 
-with plt.xkcd():
-    plot_spawn(data)
-    # plot_mem(data)
+plot_spawn_rust_local_cluster()
+# plot_mem()
