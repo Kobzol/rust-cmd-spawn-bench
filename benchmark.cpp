@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
     }
 
     if (!allocated.empty()) {
-        std::cout << allocated[alloc - 1] << std::endl;
+        std::cout << (int) allocated[alloc - 1] << std::endl;
     }
 
     return 0;

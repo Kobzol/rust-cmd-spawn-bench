@@ -1,0 +1,13 @@
+name,process_count,env_count,mode,allocated,duration
+local-usr-bin-sleep,1000,1,spawn,0,0.061644501
+local-usr-bin-sleep,1000,1,spawn,0,0.061823399
+local-usr-bin-sleep,1000,1,spawn,0,0.061525079
+local-usr-bin-sleep,5000,1,spawn,0,0.330655359
+local-usr-bin-sleep,5000,1,spawn,0,0.33745921
+local-usr-bin-sleep,5000,1,spawn,0,0.341589434
+local-usr-bin-sleep,10000,1,spawn,0,0.691022386
+local-usr-bin-sleep,10000,1,spawn,0,0.690220628
+local-usr-bin-sleep,10000,1,spawn,0,0.696582307
+local-usr-bin-sleep,25000,1,spawn,0,1.7731997069999998
+local-usr-bin-sleep,25000,1,spawn,0,1.8075378469999999
+local-usr-bin-sleep,25000,1,spawn,0,1.8275451839999999

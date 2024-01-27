@@ -3,9 +3,9 @@ use std::process::Command;
 use std::time::Instant;
 use clap::Parser;
 
-fn make_commands(count: usize) -> Vec<Command> {
+fn make_commands(count: usize, binary: &str) -> Vec<Command> {
     std::iter::from_fn(|| {
-        let mut cmd = Command::new("/usr/bin/sleep");
+        let mut cmd = Command::new(binary);
         cmd.arg("0");
         Some(cmd)
     })
@@ -25,7 +25,9 @@ fn add_envs_from_file(path: &Path) {
 struct Args {
     name: String,
     #[arg(long)]
-    alloc: Option<u64>
+    alloc: Option<u64>,
+    #[arg(long, default_value = "/usr/bin/sleep")]
+    binary: String
 }
 
 fn main() {
@@ -74,7 +76,7 @@ fn main() {
             for mode in modes {
                 for _ in 0..repeat_count {
                     assert!(children.is_empty());
-                    let commands = make_commands(*process_count);
+                    let commands = make_commands(*process_count, &args.binary);
 
                     let start = Instant::now();
                     match mode {
