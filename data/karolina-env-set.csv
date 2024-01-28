@@ -1,0 +1,16 @@
+name,process_count,env_count,mode,allocated,duration
+cluster-set,10000,51,spawn,0,8.441317027
+cluster-set,10000,51,spawn,0,9.644901046
+cluster-set,10000,51,spawn,0,8.428811305
+cluster-set,10000,101,spawn,0,9.152110419
+cluster-set,10000,101,spawn,0,8.919823227
+cluster-set,10000,101,spawn,0,9.94144473
+cluster-set,10000,151,spawn,0,10.655152843
+cluster-set,10000,151,spawn,0,11.026040464
+cluster-set,10000,151,spawn,0,10.208563006
+cluster-set,10000,201,spawn,0,10.195307743
+cluster-set,10000,201,spawn,0,9.581413209
+cluster-set,10000,201,spawn,0,11.855217267
+cluster-set,10000,251,spawn,0,11.123195492
+cluster-set,10000,251,spawn,0,12.551997415
+cluster-set,10000,251,spawn,0,11.264914429

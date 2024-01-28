@@ -138,19 +138,68 @@ def plot_sleep_vs_usr_bin_sleep():
     plt.savefig("charts/spawn-sleep-vs-usr-bin-sleep.png")
 
 
-# def plot_mem():
-#     data = pd.concat(tuple(pd.read_csv(f) for f in files))
-#     data = data[data["mode"] == "spawn"]
-#     data["allocated"] /= 1024 * 1024
-#
-#     def plot_fn(data, **kwargs):
-#         ax = sns.lineplot(data=data, x="allocated", y="duration", hue="name")
-#         ax.set(xlabel="RSS [MiB]", ylabel="Duration [s]", ylim=(0, None))
-#         ax.legend_.set_title(None)
-#         sns.move_legend(ax, "upper left")
-#
-#     plot_fn(data)
-#     plt.savefig("charts/spawn-mem.png")
+def plot_env_noset_local_cluster():
+    data = load_data(["local-env-noset.csv", "karolina-env-noset.csv"])
+    data = data[data["mode"] == "spawn"]
+    data["env_count"] -= 1  # Ignore PATH
+
+    def rename(name: str) -> str:
+        return name[:name.index("-")]
+
+    data["name"] = data["name"].apply(rename)
+
+    palette = sns.color_palette()
+    palette = [palette[0], palette[2]]
+
+    def plot_fn(data, **kwargs):
+        ax = sns.barplot(data=data, x="env_count", y="duration", hue="name", errorbar=None,
+                         palette=palette)
+        ax.set(xlabel="Environment variable count", ylabel="Duration [s]", ylim=(0, 14))
+        ax.legend_.set_title(None)
+        for container in ax.containers:
+            ax.bar_label(container, fmt="%.2f", rotation=90, padding=5)
+        sns.move_legend(ax, "upper left")
+
+    plt.cla()
+    plot_fn(data)
+    plt.savefig("charts/spawn-env-noset-local-vs-cluster.png")
+
+
+def plot_env_local_cluster():
+    data = load_data(["local-env-noset.csv", "local-env-set.csv", "karolina-env-noset.csv", "karolina-env-set.csv"])
+    data = data[data["mode"] == "spawn"]
+    data["env_count"] -= 1  # Ignore PATH
+
+    def plot_fn(data, **kwargs):
+        ax = sns.barplot(data=data, x="env_count", y="duration", hue="name", errorbar=None)
+        ax.set(xlabel="Environment variable count", ylabel="Duration [s]", ylim=(0, 14))
+        ax.legend_.set_title(None)
+        for container in ax.containers:
+            ax.bar_label(container, fmt="%.2f", rotation=90, padding=5)
+        sns.move_legend(ax, "upper left")
+
+    plt.cla()
+    plot_fn(data)
+    plt.savefig("charts/spawn-env-local-vs-cluster.png")
+
+
+def plot_env_opt_local_cluster():
+    data = load_data(["local-base.csv", "local-opt.csv"])
+    data = data[data["mode"] == "spawn"]
+    data["env_count"] -= 1  # Ignore PATH
+    # data = data.groupby(["name", "env_count"]).min().reset_index()
+
+    def plot_fn(data, **kwargs):
+        ax = sns.barplot(data=data, x="env_count", y="duration", hue="name", errorbar=None)
+        ax.set(xlabel="Environment variable count", ylabel="Duration [s]", ylim=(0, 3))
+        ax.legend_.set_title(None)
+        for container in ax.containers:
+            ax.bar_label(container, fmt="%.2f", rotation=90, padding=5)
+        sns.move_legend(ax, "upper left")
+
+    plt.cla()
+    plot_fn(data)
+    plt.savefig("charts/spawn-env-opt-local.png")
 
 
 os.makedirs("charts", exist_ok=True)
@@ -159,5 +208,7 @@ os.makedirs("charts", exist_ok=True)
 # plot_vfork_cpp_local_cluster()
 # plot_vfork_cpp_memory_local_cluster()
 # plot_vfork_py_local_cluster()
-plot_sleep_vs_usr_bin_sleep()
-# plot_mem()
+# plot_sleep_vs_usr_bin_sleep()
+# plot_env_noset_local_cluster()
+# plot_env_local_cluster()
+plot_env_opt_local_cluster()

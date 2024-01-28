@@ -1,0 +1,16 @@
+name,process_count,env_count,mode,allocated,duration
+local-opt,10000,51,spawn,0,0.952772232
+local-opt,10000,51,spawn,0,1.03302564
+local-opt,10000,51,spawn,0,1.02723878
+local-opt,10000,101,spawn,0,1.116676506
+local-opt,10000,101,spawn,0,1.11203634
+local-opt,10000,101,spawn,0,1.117998063
+local-opt,10000,151,spawn,0,1.27239515
+local-opt,10000,151,spawn,0,1.25543494
+local-opt,10000,151,spawn,0,1.199794344
+local-opt,10000,201,spawn,0,1.2830762949999999
+local-opt,10000,201,spawn,0,1.28332781
+local-opt,10000,201,spawn,0,1.284692874
+local-opt,10000,251,spawn,0,1.396247114
+local-opt,10000,251,spawn,0,1.396765245
+local-opt,10000,251,spawn,0,1.4344837049999999
