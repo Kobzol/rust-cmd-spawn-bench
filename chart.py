@@ -202,6 +202,26 @@ def plot_env_opt_local_cluster():
     plt.savefig("charts/spawn-env-opt-local.png")
 
 
+def plot_async_local_cluster():
+    items = []
+    for mode in ("single", "single-blocking", "multi-2", "multi-4", "multi-8"):
+        for name in ["local"]:  # ("karolina", "local"):
+            items.append(f"{name}-{mode}.csv")
+    data = load_data(items)
+
+    def plot_fn(data, **kwargs):
+        ax = sns.barplot(data=data, x="process_count", y="duration", hue="name", errorbar=None)
+        ax.set(xlabel="Process count", ylabel="Duration [s]", ylim=(0, None))
+        ax.legend_.set_title(None)
+        for container in ax.containers:
+            ax.bar_label(container, fmt="%.2f", rotation=90, padding=5)
+        sns.move_legend(ax, "upper left")
+
+    plt.cla()
+    plot_fn(data)
+    plt.savefig("charts/spawn-async-local-vs-cluster.png")
+
+
 os.makedirs("charts", exist_ok=True)
 
 # plot_spawn_rust_local_cluster()
@@ -211,4 +231,5 @@ os.makedirs("charts", exist_ok=True)
 # plot_sleep_vs_usr_bin_sleep()
 # plot_env_noset_local_cluster()
 # plot_env_local_cluster()
-plot_env_opt_local_cluster()
+# plot_env_opt_local_cluster()
+plot_async_local_cluster()
