@@ -202,24 +202,33 @@ def plot_env_opt_local_cluster():
     plt.savefig("charts/spawn-env-opt-local.png")
 
 
-def plot_async_local_cluster():
+def plot_async_local_cluster(ext=""):
     items = []
     for mode in ("single", "single-blocking", "multi-2", "multi-4", "multi-8"):
-        for name in ["local"]:  # ("karolina", "local"):
-            items.append(f"{name}-{mode}.csv")
+        for name in ("karolina", "local"):
+            items.append(f"{name}-{ext}{mode}.csv")
     data = load_data(items)
 
+    def combine(row):
+        mode = f"{row['mode'].lower()}"
+        thread_count = row["thread_count"]
+        if thread_count > 1:
+            mode += f"-{thread_count}"
+        return mode
+
+    data["mode"] = data[["mode", "thread_count"]].apply(combine, axis=1)
+    data["name"] = data["name"].apply(lambda name: name[:name.index("-")])
+
     def plot_fn(data, **kwargs):
-        ax = sns.barplot(data=data, x="process_count", y="duration", hue="name", errorbar=None)
-        ax.set(xlabel="Process count", ylabel="Duration [s]", ylim=(0, None))
+        ax = sns.barplot(data=data, x="mode", y="duration", hue="name", errorbar=None)
+        ax.set(xlabel="Mode", ylabel="Duration [s]", ylim=(0, 50))
         ax.legend_.set_title(None)
         for container in ax.containers:
             ax.bar_label(container, fmt="%.2f", rotation=90, padding=5)
-        sns.move_legend(ax, "upper left")
 
     plt.cla()
     plot_fn(data)
-    plt.savefig("charts/spawn-async-local-vs-cluster.png")
+    plt.savefig(f"charts/spawn-async-{ext}local-vs-cluster.png")
 
 
 os.makedirs("charts", exist_ok=True)
@@ -233,3 +242,4 @@ os.makedirs("charts", exist_ok=True)
 # plot_env_local_cluster()
 # plot_env_opt_local_cluster()
 plot_async_local_cluster()
+plot_async_local_cluster("noenv-")

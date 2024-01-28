@@ -3,7 +3,7 @@ use std::time::Instant;
 
 async fn spawn(mode: Mode) {
     let mut cmd = tokio::process::Command::new("/usr/bin/sleep");
-    cmd.env("FOO", "BAR");
+    // cmd.env("FOO", "BAR");
     cmd.arg("0");
     match mode {
         Mode::Single | Mode::Multi => {

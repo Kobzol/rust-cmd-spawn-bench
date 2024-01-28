@@ -1,0 +1,4 @@
+name,process_count,mode,thread_count,duration
+local-multi-4,20000,Multi,4,3.160686253
+local-multi-4,20000,Multi,4,3.152294918
+local-multi-4,20000,Multi,4,3.118199186

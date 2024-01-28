@@ -1,0 +1,4 @@
+name,process_count,mode,thread_count,duration
+cluster-multi-4,20000,Multi,4,16.131165094
+cluster-multi-4,20000,Multi,4,16.078097174
+cluster-multi-4,20000,Multi,4,15.888181679

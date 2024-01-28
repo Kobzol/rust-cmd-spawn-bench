@@ -1,0 +1,4 @@
+name,process_count,mode,thread_count,duration
+local-single-blocking,20000,SingleBlocking,1,2.747926032
+local-single-blocking,20000,SingleBlocking,1,2.725322814
+local-single-blocking,20000,SingleBlocking,1,2.696573753
